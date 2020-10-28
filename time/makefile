@@ -4,8 +4,6 @@ DIR_DEP  := $(DIR_ROOT)/dep
 
 $(shell mkdir -p $(DIR_OBJ) $(DIR_DEP) >/dev/null)
 
-
-
 FILES = main.cpp testtime.cpp
 OBJ =  $(patsubst %.cpp, $(DIR_OBJ)/%.o, $(FILES))
 Dep =  $(patsubst %.cpp, $(DIR_DEP)/%.d, $(FILES))
@@ -13,7 +11,7 @@ Dep =  $(patsubst %.cpp, $(DIR_DEP)/%.d, $(FILES))
 
 TARGETNAME = a.out
 
-$(TARGETNAME) : $(OBJ)
+$(TARGETNAME) : $(Dep) $(OBJ)
 	g++ $(OBJ) -o $@
 
 $(DIR_OBJ)/%.o : %.cpp
@@ -40,4 +38,4 @@ clean:
 
 .PHONY : clean
 
-include $(Dep)
+#include $(Dep)
