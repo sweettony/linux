@@ -21,10 +21,12 @@ int main()
         while(buff[0] != '0')
         {
             scanf("%s", buff);
-            size = unix_dgram_server_read(sock, buff, (1024 << 10));
+            size = unix_dgram_server_read(sock, buff, 1);
             if(size > 0)
             {
                 printf("size = %d\n", size);
+                buff[size] = '\0';
+                printf("%s\n", buff);
             }
         }
         unlink(path);
