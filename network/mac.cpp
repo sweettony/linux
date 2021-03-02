@@ -2,7 +2,7 @@
 #include <sstream>
 #include <string>
 #include <string.h>
-
+#include <iomanip>
 
 
 #include <sys/ioctl.h>
@@ -12,7 +12,7 @@
 #include <netinet/in.h>
 #include <stdio.h>
 
-int mac(const std::string name, )
+int mac(const std::string name, std::string mac)
 {
     if(name.size() == 0)
         return -1;
@@ -28,7 +28,14 @@ int mac(const std::string name, )
 
     if (ioctl(fd, SIOCGIFHWADDR, &stifr) == -1)
         return -3;
-    ss << (unsigned int)stifr.ifr_ifru.ifru_hwaddr.sa_data[0] << "."\
+
+    std::stringstream ss;
+    #define MACFORMAT std::setw(2) << std::setfill('0') << std::setbase(16)
+    for(int i = 0; i < 5; i++)
+        ss  << MACFORMAT << (stifr.ifr_ifru.ifru_hwaddr.sa_data[i] & 0xFF)<< ":";
+    ss  << MACFORMAT << (stifr.ifr_ifru.ifru_hwaddr.sa_data[5] & 0xFF);
+    #undef MACFORMAT
+    std::cout << "addr = " << ss.str() << std::endl;
     return 0;
 }
 int main()
