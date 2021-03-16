@@ -13,6 +13,16 @@ int Get_localtime()
     std::cout << "tm_gmtoff = " << tm_broke.tm_gmtoff << std::endl;
     std::cout << asctime(&tm_broke) << std::endl;
 
+    struct tm tm_gm_broken;
+    gmtime_r(&tstramp, &tm_gm_broken);
+    std::cout << "tm_gmtoff = " << tm_gm_broken.tm_gmtoff << std::endl;
+    std::cout << asctime(&tm_gm_broken) << std::endl;
+
+    time_t t1 = mktime(&tm_broke);
+    std::cout << "===============>" << t1 << std::endl;
+    time_t t2 = mktime(&tm_gm_broken);
+    std::cout << "===============>" << t2 << std::endl;
+
     struct timespec ts; //recommemdation
     clock_gettime(CLOCK_REALTIME, &ts);
     std::cout << "timespec = " << ts.tv_sec << "s " << ts.tv_nsec << "ns" << std::endl;
